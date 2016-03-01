@@ -46,11 +46,6 @@ void ofApp::setup() {
     
     //-------sound setup------------
     
-//    synthOne.loadSound("200hz.wav");
-//    synthTwo.loadSound("300hz.wav");
-//    synthThree.loadSound("400hz.wav");
-//    synthFour.loadSound("440hz.wav");
-//    synthFive.loadSound("500hz.wav");
     
     synthOne.loadSound("toneOne.mp3");
     synthTwo.loadSound("toneTwo.mp3");
@@ -134,13 +129,11 @@ void ofApp::draw() {
     
     
     //----actual drawing----------
-    ofRect(0,ofGetHeight()/6,ofGetWidth(),5);
-    ofRect(0,ofGetHeight()/6*2,ofGetWidth(),5);
-    ofRect(0,ofGetHeight()/6*3,ofGetWidth(),5);
-    ofRect(0,ofGetHeight()/6*4,ofGetWidth(),5);
-    ofRect(0,ofGetHeight()/6*5,ofGetWidth(),5);
-
-
+    ofRect(rect1);
+    ofRect(rect2);
+    ofRect(rect3);
+    ofRect(rect4);
+    ofRect(rect5);
 
     
     
@@ -151,7 +144,7 @@ void ofApp::draw() {
         
         if (contourFinder.blobs[i].boundingRect.intersects(rect1)) {
             ofSetColor(255, 0, 0);
-            ofRect(0,ofGetHeight()/6,ofGetWidth(),5);
+            ofRect(rect1);
             bPlayOne = true;
         }else{
             bPlayOne = false;
@@ -159,28 +152,28 @@ void ofApp::draw() {
         
         if (contourFinder.blobs[i].boundingRect.intersects(rect2)) {
             ofSetColor(255, 0, 0);
-            ofRect(0,ofGetHeight()/6*2,ofGetWidth(),5);
+            ofRect(rect2);
             bPlayTwo = true;
         }else{
             bPlayTwo = false;
         }
         if (contourFinder.blobs[i].boundingRect.intersects(rect3)) {
             ofSetColor(255, 0, 0);
-            ofRect(0,ofGetHeight()/6*3,ofGetWidth(),5);
+            ofRect(rect3);
             bPlayThree = true;
         }else{
             bPlayThree = false;
         }
         if (contourFinder.blobs[i].boundingRect.intersects(rect4)) {
             ofSetColor(255, 0, 0);
-            ofRect(0,ofGetHeight()/6*4,ofGetWidth(),5);
+            ofRect(rect4);
             bPlayFour= true;
         }else{
             bPlayFour = false;
         }
         if (contourFinder.blobs[i].boundingRect.intersects(rect5)) {
             ofSetColor(255, 0, 0);
-            ofRect(0,ofGetHeight()/6*5,ofGetWidth(),5);
+            ofRect(rect5);
             bPlayFive = true;
         }else{
             bPlayFive = false;
