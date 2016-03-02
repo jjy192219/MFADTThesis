@@ -124,13 +124,17 @@ void ofApp::update(){
         
         //convert kinectsized grayimage to of canvas size
         finalGryImg.scaleIntoMe(grayImage);
-    }
-    intersect();
 
+        intersect();
+
+    }
 }
 
 void ofApp::intersect(){
     mRects.clear();
+    mSelections.clear();
+    contourFinder.findContours(finalGryImg, 10, (kinect.width*kinect.height)/2, 5, false);
+    
     for (int i = 0; i < mRow; i ++) {
         for (int j = 0; j < mColumn; j ++) {
             ofRectangle rect(mPerCellWidth * i + mGridLeft, mPerCellHeight * j + mGridTop, mPerCellWidth - mGridLeft, mPerCellHeight - mGridTop - 95);
@@ -138,13 +142,13 @@ void ofApp::intersect(){
         }
     }
     
-    contourFinder.findContours(finalGryImg, 10, (kinect.width*kinect.height)/2, 5, false);
-    
-    for (int i = 0; i < contourFinder.nBlobs; i++) {
-        for (int x = 0; x < mRow; x ++) {
-            for (int y = 0; y < mColumn; y ++) {
-                if (contourFinder.blobs[i].boundingRect.intersects(mRects[x][y])){
-                    mGrid[x][y].mSelected = true;
+    for (int x = 0; x < mRow; x ++) {
+        for (int y = 0; y < mColumn; y ++) {
+            for (int i = 0 ; i < contourFinder.nBlobs; i++) {
+                if (contourFinder.blobs[i].boundingRect.intersects(mRects[x][y])) {
+                    ofVec2f temp;
+                    temp.set(x, y);
+                    mSelections.push_back(temp);
                 }else{
                     mGrid[x][y].mSelected = false;
                 }
@@ -152,17 +156,9 @@ void ofApp::intersect(){
         }
     }
     
-//    for (int x = 0; x < mRow; x ++) {
-//        for (int y = 0; y < mColumn; y ++) {
-//            for (int i = 0 ; i < contourFinder.nBlobs; i++) {
-//                if (mRects[x][y].intersects(contourFinder.blobs[i].boundingRect)) {
-//                    mGrid[x][y].mSelected = true;
-//                }else{
-//                    mGrid[x][y].mSelected = false;
-//                }
-//            }
-//        }
-//    }
+    for (std::vector<ofVec2f>::iterator it = mSelections.begin(); it != mSelections.end(); it++) {
+        mGrid[int(it->x)][int(it->y)].mSelected = true;
+    }
 }
 
 void ofApp::nextStep(){
@@ -302,26 +298,26 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    int mX = ofMap(int(mouseX- mGridLeft), 0, mGridWidth, 0, mColumn);
-    int mY;
-    
-    if (mouseY>mGridTop && mouseY< mGridTop+ mPerCellHeight-95) {
-        mY = 0;
-    }else if(mouseY>mGridTop + mPerCellHeight && mouseY< mGridTop+ mPerCellHeight*2-95){
-        mY = 1;
-    }else if(mouseY>mGridTop + mPerCellHeight*2 && mouseY< mGridTop+ mPerCellHeight*3-95){
-        mY = 2;
-    }else if(mouseY>mGridTop + mPerCellHeight*3 && mouseY< mGridTop+ mPerCellHeight*4-95){
-        mY = 3;
-    }else if(mouseY>mGridTop + mPerCellHeight*4 && mouseY< mGridTop+ mPerCellHeight*5-95){
-        mY = 4;
-    }
-    
-    if(mX >= 0 && mX < mColumn && mY >= 0 && mY < mRow){
-        setState = ! mGrid[mX][mY].mState;
-        mGrid[mX][mY].mState = setState;
-        mGrid[mX][mY].mSelected = setState;
-    }
+//    int mX = ofMap(int(mouseX- mGridLeft), 0, mGridWidth, 0, mColumn);
+//    int mY;
+//    
+//    if (mouseY>mGridTop && mouseY< mGridTop+ mPerCellHeight-95) {
+//        mY = 0;
+//    }else if(mouseY>mGridTop + mPerCellHeight && mouseY< mGridTop+ mPerCellHeight*2-95){
+//        mY = 1;
+//    }else if(mouseY>mGridTop + mPerCellHeight*2 && mouseY< mGridTop+ mPerCellHeight*3-95){
+//        mY = 2;
+//    }else if(mouseY>mGridTop + mPerCellHeight*3 && mouseY< mGridTop+ mPerCellHeight*4-95){
+//        mY = 3;
+//    }else if(mouseY>mGridTop + mPerCellHeight*4 && mouseY< mGridTop+ mPerCellHeight*5-95){
+//        mY = 4;
+//    }
+//    
+//    if(mX >= 0 && mX < mColumn && mY >= 0 && mY < mRow){
+//        setState = ! mGrid[mX][mY].mState;
+//        mGrid[mX][mY].mState = setState;
+//        mGrid[mX][mY].mSelected = setState;
+//    }
     
     
 }

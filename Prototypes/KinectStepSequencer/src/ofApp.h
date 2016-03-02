@@ -49,6 +49,9 @@ public:
     
     std::map <int, vector<ofRectangle> >mRects;
     
+    vector<ofVec2f> mSelections;
+    
+    
     ofxKinect kinect;
     
     
