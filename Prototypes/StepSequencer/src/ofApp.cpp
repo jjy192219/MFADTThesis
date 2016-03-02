@@ -102,7 +102,7 @@ void ofApp::draw(){
             cell.draw(mPerCellWidth, mPerCellHeight, mGridTop, mGridLeft);
         }
     }
-
+    ofCircle(ofGetMouseX(), ofGetMouseY(), 3);
 
 }
 
