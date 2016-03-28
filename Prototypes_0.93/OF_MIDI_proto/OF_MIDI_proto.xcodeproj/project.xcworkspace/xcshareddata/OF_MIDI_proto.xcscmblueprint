@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0" : 0,
+    "90E2F969A762FB62C413A0C44D1F334E6EC3F531" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AD696789-5DF3-4230-BDF7-6AC61640C76C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0" : "MFADTThesis\/",
+    "90E2F969A762FB62C413A0C44D1F334E6EC3F531" : "addons\/ofxMidi\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OF_MIDI_proto",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Prototypes_0.93\/OF_MIDI_proto\/OF_MIDI_proto.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/danomatika\/ofxMidi",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "90E2F969A762FB62C413A0C44D1F334E6EC3F531"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jjy192219\/MFADTThesis",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0"
+    }
+  ]
+}
