@@ -1,0 +1,6 @@
+ofxGui
+ofxKinect
+ofxLibwebsockets
+ofxMidi
+ofxOpenCv
+ofxSpacebrew
