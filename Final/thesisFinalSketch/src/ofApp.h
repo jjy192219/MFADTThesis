@@ -26,32 +26,29 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    ofxPanel            nGui;
-    ofParameter<int>    radius1;
-    ofParameter<int>    radius2;
-    ofParameter<int>    radius3;
+    ofxPanel            mGui;
+    ofParameterGroup    mParameters;
     ofParameter<int>    nearThread;
     ofParameter<int>    farThread;
     ofParameter<int>    tiltAngle;
-    ofParameter<ofVec2f>centerPos1;
-    ofParameter<ofVec2f>centerPos2;
-    ofParameter<ofVec2f>centerPos3;
+    ofParameter<bool>   bSendNote;
+    ofParameter<int>    notes;
     
     bool                bHide;
     bool                bTouched1;
     bool                bTouched2;
     bool                bTouched3;
 		
-    ring                nRing1;
-    ring                nRing2;
-    ring                nRing3;
+    ring                mRing1, mRing2, mRing3;
     position            position;
     motions             motions;
     ofxMidiOut          midiOut;
-    
     float               distToCenter[3];
-
-    ofVec3f             rotationReads;
-    ofVec3f             accelReads;
+    ofVec3f             rotationRawReads;
+    ofVec3f             accelRawReads;
+    int                 rotationProcessedPrev;
+    int                 rotationProcessed;
+    int                 accelProcessedPrev;
+    int                 accelProcessed;
     
 };

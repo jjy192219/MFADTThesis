@@ -9,28 +9,27 @@
 #include "ring.h"
 
 ring::ring(){
-
  
 }
 
-void ring::setup(ofVec2f center, int radius){
-    pos.set(center);
-    size = radius;
-    
+void ring::setup(string name){
+    parameters.setName(name);
+    parameters.add(size.set("size",150, 0, 500));
+    parameters.add(pos.set("position",ofVec2f(ofGetWidth()*.5,ofGetHeight()*.5),ofVec2f(0,0),ofVec2f(ofGetWidth(),ofGetHeight())));
 }
 
-void ring::update(ofVec2f newPos, int newRadius){
-    pos.set(newPos);
-    size = newRadius;
-}
 
 void ring::draw(){
     ofSetLineWidth(3);
     ofNoFill();
-    ofCircle(pos, size);
+    ofDrawCircle(pos.get(), size);
 
 }
 
-void ring::getCenter(){
+ofVec2f ring::getCenter(){
     return pos;
+}
+
+int ring::getSize(){
+    return size;
 }

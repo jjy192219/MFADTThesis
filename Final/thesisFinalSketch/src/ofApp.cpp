@@ -9,23 +9,23 @@ void ofApp::setup(){
     bTouched2 = false;
     bTouched3 = false;
     
-    nGui.setup("rings");
-    nGui.add(radius1.set("Ring1 Radius ", 300, 0, 500));
-    nGui.add(radius2.set("Ring2 Radius ", 150, 0, 500));
-    nGui.add(radius3.set("Ring3 Radius ", 80, 0, 500));
-    nGui.add(nearThread.set("Near Threashold", 240, 0, 255));
-    nGui.add(farThread.set("Far Threashold", 230, 0, 255));
-    nGui.add(tiltAngle.set("Tile angle", 0, 0, 30));
-
-    nGui.add(centerPos1.set("Ring1 Center ", ofVec2f(ofGetWidth(), ofGetHeight()/2), ofVec2f(0,0), ofVec2f(ofGetWidth(), ofGetHeight())));
-    nGui.add(centerPos2.set("Ring2 Center ", ofVec2f(ofGetWidth()/2, ofGetHeight()/2), ofVec2f(0,0), ofVec2f(ofGetWidth(), ofGetHeight())));
-    nGui.add(centerPos3.set("Ring3 Center ", ofVec2f(ofGetWidth()/2, ofGetHeight()/2), ofVec2f(0,0), ofVec2f(ofGetWidth(), ofGetHeight())));
+    mRing1.setup("Ring 1");
+    mRing2.setup("Ring 2");
+    mRing3.setup("Ring 3");
     
-    nRing1.setup(centerPos1, radius1);
-    nRing2.setup(centerPos2, radius2);
-    nRing3.setup(centerPos3, radius3);
+    mParameters.setName("Setting");
+    mParameters.add(mRing1.parameters);
+    mParameters.add(mRing2.parameters);
+    mParameters.add(mRing3.parameters);
+    
+    mGui.setup(mParameters);
+    mGui.add(bSendNote.set("send note",false));
+    mGui.add(notes.set("note val", 36, 0, 127));
+    mGui.add(nearThread.set("Near Threashold", 181, 0, 255));
+    mGui.add(farThread.set("Far Threashold", 161, 0, 255));
+    mGui.add(tiltAngle.set("Tile angle", 0, 0, 30));
+
     position.setup();
-    distToCenter[3];
     for (int i = 0; i < 3; i++) {
         distToCenter[i] = 0;
     }
@@ -33,47 +33,72 @@ void ofApp::setup(){
     //-------midi----------
     midiOut.listPorts(); // via instance
     midiOut.openVirtualPort("Thesis MIDI");
-    
+    midiOut.sendControlChange(1, 21, 0);
+    midiOut.sendControlChange(1, 22, 0);
+    midiOut.sendControlChange(1, 23, 0);
     //--------motions----------
     motions.setup();
+    rotationProcessedPrev = 0;
+    rotationProcessed = 0;
+    accelProcessedPrev = 0;
+    accelProcessed = 0;
     
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
-    nRing1.update(centerPos1, radius1);
-    nRing2.update(centerPos2, radius2);
-    nRing3.update(centerPos3, radius3);
-    
     position.update(nearThread, farThread, tiltAngle);
-    distToCenter[0] = position.getIntersectDist(centerPos1);
-    distToCenter[1]= position.getIntersectDist(centerPos2);
-    distToCenter[2]= position.getIntersectDist(centerPos3);
+    distToCenter[0] = position.getIntersectDist(mRing1.getCenter());
+    distToCenter[1]= position.getIntersectDist(mRing2.getCenter());
+    distToCenter[2]= position.getIntersectDist(mRing3.getCenter());
 
-    if (distToCenter[0] <= radius1) {
+    if (distToCenter[0] <= mRing1.getSize()) {
         bTouched1 = true;
     }else{
         bTouched1 = false;
     }
     
-    if (distToCenter[1] <= radius2) {
+    if (distToCenter[1] <= mRing2.getSize()) {
         bTouched2 = true;
     }else{
         bTouched2 = false;
     }
     
-    if (distToCenter[2] <= radius3) {
+    if (distToCenter[2] <= mRing3.getSize()) {
         bTouched3 = true;
     }else{
         bTouched3 = false;
     }
     
-    //-------------Motions--------------
-    rotationReads = motions.getRotations();
-    accelReads = motions.getAccelerations();
-    cout<<"rotationreads: "<<rotationReads<<std::endl;
+    //--------------MIDI--------------
+    if (bSendNote) {
+        midiOut.sendNoteOn(1, notes, 64);
+        bSendNote = false;
+    }
     
+    //-------------Motions--------------
+    rotationRawReads = motions.getRotations();
+    accelRawReads = motions.getAccelerations();
+
+    int tempX, tempY;
+    int tempNewX = 0;
+    int tempNewY = 0;
+    tempX = tempNewX;
+    tempNewX = rotationRawReads.x;
+    tempX = 0.7 * tempX + 0.3 * tempNewX;
+    
+    tempY = tempNewY;
+    tempNewY = rotationRawReads.y;
+    tempY = 0.7 * tempY*10 + 0.3 * tempNewY*10;
+    
+    tempX = ofMap(tempX, 0, 108, 0, 127);
+    tempY = ofMap(tempY, 100, 200, 0, 127);
+    
+    midiOut.sendControlChange(1, 23, tempX);
+    midiOut.sendControlChange(1, 24, tempY);
+
+    cout<<"tempX: "<<tempX<<" tempY: "<<tempY<<std::endl;
+
 
 }
 
@@ -83,42 +108,46 @@ void ofApp::draw(){
     position.draw();
     
     if (bTouched1) {
-        int midiMsg = ofMap(distToCenter[0], radius1,0, 0, 127);
+        int midiMsg = ofMap(distToCenter[0], mRing1.getSize(),0, 0, 127);
         midiOut.sendControlChange(1, 20, midiMsg);
         ofSetColor(255,0 ,0 );
-        nRing1.draw();
+        mRing1.draw();
     }else{
         midiOut.sendControlChange(1, 20, 0);
         ofSetColor(255);
-        nRing1.draw();
+        mRing1.draw();
     }
     if (bTouched2) {
-        int midiMsg = ofMap(distToCenter[1], radius2,0, 0, 127);
+        int midiMsg = ofMap(distToCenter[1], mRing2.getSize(),0, 0, 127);
         midiOut.sendControlChange(1, 21, midiMsg);
         ofSetColor(255,0 ,0 );
-        nRing2.draw();
+        mRing2.draw();
     }else{
         midiOut.sendControlChange(1, 21, 0);
         ofSetColor(255);
-        nRing2.draw();
+        mRing2.draw();
     }
     if (bTouched3) {
-        int midiMsg = ofMap(distToCenter[2], radius3,0, 0, 127);
+        int midiMsg = ofMap(distToCenter[2], mRing3.getSize(),0, 0, 127);
         midiOut.sendControlChange(1, 22, midiMsg);
         ofSetColor(255,0 ,0 );
-        nRing3.draw();
+        mRing3.draw();
     }else{
         midiOut.sendControlChange(1, 22, 0);
         ofSetColor(255);
-        nRing3.draw();
+        mRing3.draw();
     }
     
     if (!bHide) {
-        nGui.draw();
+        mGui.draw();
     }
     
     stringstream text;
-    text <<"distance to center: "<< distToCenter<<endl;
+    text <<"distance to center "<< distToCenter <<endl<<
+    "acceleration raw" << accelRawReads<<endl<<
+    "acceleration Processed " << accelProcessed<<endl<<
+    "rotation raw" << rotationRawReads<<endl<<
+    "rotation processed " << rotationProcessed<<endl;
     ofDrawBitmapString(text.str(), ofGetWidth()-250, 20);
 }
 
