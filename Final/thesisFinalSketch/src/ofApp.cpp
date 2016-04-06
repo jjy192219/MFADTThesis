@@ -79,10 +79,14 @@ void ofApp::update(){
     //-------------Motions--------------
     rotationRawReads = motions.getRotations();
     accelRawReads = motions.getAccelerations();
-
-    int tempX, tempY;
+    
+    accelProcessedPrev = accelProcessed;
+    accelProcessed = accelRawReads.x*10 + accelRawReads.y*10 + accelRawReads.z*10;
+    int accelDiff = abs(accelProcessed - accelProcessedPrev)*10;
+    int tempX, tempY, tempZ;
     int tempNewX = 0;
     int tempNewY = 0;
+    int tempNewZ = 0;
     tempX = tempNewX;
     tempNewX = rotationRawReads.x;
     tempX = 0.7 * tempX + 0.3 * tempNewX;
@@ -91,15 +95,31 @@ void ofApp::update(){
     tempNewY = rotationRawReads.y;
     tempY = 0.7 * tempY*10 + 0.3 * tempNewY*10;
     
+    tempZ = tempNewZ;
+    tempNewZ = rotationRawReads.z;
+    tempZ = 0.7 * tempZ + 0.3 * tempNewZ;
+    
+//    cout<<"tempX: "<<tempX<<" tempY: "<<tempY<< " tempZ: "<<tempZ<<std::endl;
+
     tempX = ofMap(tempX, 0, 108, 0, 127);
-    tempY = ofMap(tempY, 100, 200, 0, 127);
+    tempY = ofMap(tempY, 100, 160, 0, 127);
     
     midiOut.sendControlChange(1, 23, tempX);
     midiOut.sendControlChange(1, 24, tempY);
+//    cout<<"tempX: "<<tempX<<" tempY: "<<tempY<<std::endl;
+//    cout<<"accelPsd: "<<accelProcessedPrev<<std::endl;
+    cout<<"accelDiff: "<<accelDiff<<std::endl;
 
-    cout<<"tempX: "<<tempX<<" tempY: "<<tempY<<std::endl;
+//    cout<<"x: "<<accelRawReads.x<<"y: "<<accelRawReads.y<<"z: "<<accelRawReads.z<<std::endl;
 
-
+    
+    if(position.getNBlobs() >0){
+        if(accelProcessedPrev >= 155){
+            motions.playRake(accelProcessedPrev);
+        }else{
+            motions.stopPlayRake();
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -145,7 +165,7 @@ void ofApp::draw(){
     stringstream text;
     text <<"distance to center "<< distToCenter <<endl<<
     "acceleration raw" << accelRawReads<<endl<<
-    "acceleration Processed " << accelProcessed<<endl<<
+    "acceleration Processed " << accelProcessedPrev<<endl<<
     "rotation raw" << rotationRawReads<<endl<<
     "rotation processed " << rotationProcessed<<endl;
     ofDrawBitmapString(text.str(), ofGetWidth()-250, 20);

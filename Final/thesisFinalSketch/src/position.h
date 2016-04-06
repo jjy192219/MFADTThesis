@@ -19,6 +19,7 @@ class position {
     void update(int nearTreash, int farTreash, int tiltAngle);
     void draw();
     float getIntersectDist(ofVec2f centerPos);
+    int getNBlobs();
     
     ofxKinect           kinect;
     ofxCvColorImage     colorImg;

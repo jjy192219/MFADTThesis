@@ -23,6 +23,9 @@ void ring::draw(){
     ofSetLineWidth(3);
     ofNoFill();
     ofDrawCircle(pos.get(), size);
+    ofFill();
+    ofSetColor(0, 255, 0);
+    ofDrawCircle(pos.get(),3);
 
 }
 

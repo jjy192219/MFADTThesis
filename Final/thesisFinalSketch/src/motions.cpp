@@ -25,10 +25,10 @@ void motions::setup(){
     sb.addSubscribe("OF_read_accel_x", Spacebrew::TYPE_RANGE);
     sb.addSubscribe("OF_read_accel_y", Spacebrew::TYPE_RANGE);
     sb.addSubscribe("OF_read_accel_z", Spacebrew::TYPE_RANGE);
-    
     sb.connect(host, name, description);
     Spacebrew::addListener(this, sb);
-
+    raking.load("Crackle.wav");
+    raking.setMultiPlay(true);
 }
 
 void motions::onMessage(Spacebrew::Message & m){
@@ -54,4 +54,17 @@ ofVec3f motions::getRotations(){
 
 ofVec3f motions::getAccelerations(){
     return accelRead;
+}
+
+void motions::playRake(int accel){
+    if (!raking.getIsPlaying()) {
+        float control = ofMap(accel, 140, 210, 0, 1);
+        raking.setSpeed(control);
+        raking.setVolume(0.2);
+        raking.play();
+    }
+}
+
+void motions::stopPlayRake(){
+        raking.stop();
 }

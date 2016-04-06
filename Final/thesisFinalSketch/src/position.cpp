@@ -77,9 +77,8 @@ void position::update(int nearT, int farT, int tilt){
 
 
 
-
 float position::getIntersectDist(ofVec2f center){
-    contourFinder.findContours(finalGryImg, 10, (kinect.width*kinect.height)/2, 3, false);
+    contourFinder.findContours(finalGryImg, 10, (kinect.width*kinect.height)/2, 1, false);
     
     for (int i = 0; i < contourFinder.nBlobs; i++) {
         ofVec2f temp(contourFinder.blobs[i].centroid.x, contourFinder.blobs[i].centroid.y);
@@ -88,6 +87,10 @@ float position::getIntersectDist(ofVec2f center){
     
     return disToCenter;
 
+}
+
+int position::getNBlobs(){
+    return contourFinder.nBlobs;
 }
 
 void position::draw(){

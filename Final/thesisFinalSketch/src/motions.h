@@ -15,6 +15,9 @@ class motions {
     motions();
     void setup();
     void onMessage( Spacebrew::Message & m );
+    void playRake(int accel);
+    void stopPlayRake();
+
     ofVec3f getRotations();
     ofVec3f getAccelerations();
     
@@ -22,4 +25,6 @@ class motions {
     string host, name, description;
     ofVec3f rotationRead;
     ofVec3f accelRead;
+    
+    ofSoundPlayer raking;
 };
