@@ -25,7 +25,7 @@ void ring::draw(){
     ofDrawCircle(pos.get(), size);
     ofFill();
     ofSetColor(0, 255, 0);
-    ofDrawCircle(pos.get(),3);
+    ofDrawCircle(pos.get(),10);
 
 }
 

@@ -101,7 +101,11 @@ void ofApp::update(){
     
 //    cout<<"tempX: "<<tempX<<" tempY: "<<tempY<< " tempZ: "<<tempZ<<std::endl;
 
-    tempX = ofMap(tempX, 0, 108, 0, 127);
+//    tempX = ofMap(tempX, 0, 108, 35, 85);
+//    tempX = ofMap(tempX, 0, 108, 64, 10);
+    tempX = ofMap(tempX, 0, 108, 40, 80);
+
+
     tempY = ofMap(tempY, 100, 160, 0, 127);
     
     midiOut.sendControlChange(1, 23, tempX);
@@ -113,13 +117,13 @@ void ofApp::update(){
 //    cout<<"x: "<<accelRawReads.x<<"y: "<<accelRawReads.y<<"z: "<<accelRawReads.z<<std::endl;
 
     
-    if(position.getNBlobs() >0){
-        if(accelProcessedPrev >= 155){
-            motions.playRake(accelProcessedPrev);
-        }else{
-            motions.stopPlayRake();
-        }
-    }
+//    if(position.getNBlobs() >0){
+//        if(accelProcessedPrev >= 155){
+//            motions.playRake(accelProcessedPrev);
+//        }else{
+//            motions.stopPlayRake();
+//        }
+//    }
 }
 
 //--------------------------------------------------------------

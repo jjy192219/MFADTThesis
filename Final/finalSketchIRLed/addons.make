@@ -1,0 +1,5 @@
+ofxGui
+ofxKinect
+ofxMidi
+ofxOpenCv
+ofxPS3EyeGrabber
