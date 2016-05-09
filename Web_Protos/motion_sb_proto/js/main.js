@@ -62,12 +62,12 @@ var phoneMotionDatas = function(){
 	if(window.DeviceMotionEvent){
 				//phone accel datas
 		window.addEventListener('devicemotion', function(event){
-			 // accelData.x = event.acceleration.x;
-			 // accelData.y = event.acceleration.y;
-			 // accelData.z = event.acceleration.z;
-			 accelData.x = Math.abs(Math.round(event.accelerationIncludingGravity.x));
-			 accelData.y = Math.abs(Math.round(event.accelerationIncludingGravity.y));
-			 accelData.z = Math.abs(Math.round(event.accelerationIncludingGravity.z));
+			 accelData.x = Math.abs(event.acceleration.x);
+			 accelData.y = Math.abs(event.acceleration.y);
+			 accelData.z = Math.abs(event.acceleration.z);
+			 // accelData.x = Math.abs(Math.round(event.accelerationIncludingGravity.x));
+			 // accelData.y = Math.abs(Math.round(event.accelerationIncludingGravity.y));
+			 // accelData.z = Math.abs(Math.round(event.accelerationIncludingGravity.z));
 
 			 processDatas('accel', accelData);
 

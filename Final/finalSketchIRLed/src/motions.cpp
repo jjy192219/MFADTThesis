@@ -13,22 +13,44 @@ motions::motions(){
 }
 
 void motions::setup(){
-//    mRotationRead.set(0,0,0);
-//    mAccelRead.set(0, 0, 0);
-    mSerial.listDevices();
-    vector <ofSerialDeviceInfo> deviceList = mSerial.getDeviceList();
-    int baud = 115200;
-    mSerial.setup(1, baud);
-
+    
+    rotationRead.set(0,0,0);
+    accelRead.set(0, 0, 0);
+    host = "localhost";
+    name = "of_listener";
+    description = "subscrible motion data to of";
+    sb.addSubscribe("OF_read_rotate_alpha", Spacebrew::TYPE_RANGE);
+    sb.addSubscribe("OF_read_rotate_beta", Spacebrew::TYPE_RANGE);
+    sb.addSubscribe("OF_read_rotate_gamma", Spacebrew::TYPE_RANGE);
+    sb.addSubscribe("OF_read_accel_x", Spacebrew::TYPE_RANGE);
+    sb.addSubscribe("OF_read_accel_y", Spacebrew::TYPE_RANGE);
+    sb.addSubscribe("OF_read_accel_z", Spacebrew::TYPE_RANGE);
+    sb.connect(host, name, description);
+    Spacebrew::addListener(this, sb);
 }
 
-void motions::update(){
-    if (mSerial.available()) {
-        unsigned char bytesReturned[33];
-        memset(bytesReturned,0,10);
-        mSerial.readBytes(bytesReturned, 33);
-        string serialData = (char*) bytesReturned;
-        cout<<"serialData: " <<serialData <<std::endl;
-        mSerial.flush();
+void motions::onMessage(Spacebrew::Message & m){
+    if (m.name == "OF_read_rotate_alpha") {
+        rotationRead.x = m.valueRange();
+    }else if(m.name == "OF_read_rotate_beta"){
+        rotationRead.y = m.valueRange();
+    }else if(m.name == "OF_read_rotate_gamma"){
+        rotationRead.z = m.valueRange();
+    }else if(m.name == "OF_read_accel_x"){
+        accelRead.x = m.valueRange();
+    }else if(m.name == "OF_read_accel_y"){
+        accelRead.y = m.valueRange();
+    }else if(m.name == "OF_read_accel_z"){
+        accelRead.z = m.valueRange();
     }
+    
 }
+
+ofVec3f motions::getRotations(){
+    return rotationRead;
+}
+
+ofVec3f motions::getAccelerations(){
+    return accelRead;
+}
+

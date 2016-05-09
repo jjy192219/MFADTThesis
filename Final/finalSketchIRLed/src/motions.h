@@ -1,26 +1,26 @@
 //
 //  motions.hpp
-//  finalSketchIRLed
+//  thesisFinalSketch
 //
-//  Created by Eric Jiang on 4/28/16.
+//  Created by Eric Jiang on 4/4/16.
 //
 //
 
 #pragma once
 #include "ofMain.h"
+#include "ofxSpacebrew.h"
 
-
-class motions{
+class motions {
 public:
     motions();
     void setup();
-    void update();
+    void onMessage( Spacebrew::Message & m );
     
-//    ofVec3f getRotations();
-//    ofVec3f getAccelerations();
-//    
-//    ofVec3f     mRotationRead;
-//    ofVec3f     mAccelRead;
-    ofSerial    mSerial;
+    ofVec3f getRotations();
+    ofVec3f getAccelerations();
     
+    Spacebrew::Connection sb;
+    string host, name, description;
+    ofVec3f rotationRead;
+    ofVec3f accelRead;
 };

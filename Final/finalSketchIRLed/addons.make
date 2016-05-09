@@ -1,5 +1,7 @@
 ofxGui
 ofxKinect
+ofxLibwebsockets
 ofxMidi
 ofxOpenCv
 ofxPS3EyeGrabber
+ofxSpacebrew
