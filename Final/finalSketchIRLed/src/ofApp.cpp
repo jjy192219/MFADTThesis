@@ -130,29 +130,29 @@ void ofApp::update(){
     
     if(tempVal <=0){
         tempVal = 0;
-    }else if (tempVal >= 600){
-        tempVal = 600;
+    }else if (tempVal >= 700){
+        tempVal = 700;
     }
     
     cout<<"rake speed: "<<mRackingSpeed<<" processed: "<<tempVal<<std::endl;
     
     
-    if (tempVal>0 && tempVal<=200) {
-        float trakOneVal = ofMap(tempVal, 0, 200, 0, 127);
+    if (tempVal>0 && tempVal<=300) {
+        float trakOneVal = ofMap(tempVal, 0, 300, 0, 127);
         midiOut.sendControlChange(1, 20, trakOneVal);
     }else{
         midiOut.sendControlChange(1, 20, 0);
     }
     
-    if(tempVal >100 && tempVal<=400){
-        float trackTwoVal = ofMap(tempVal, 100, 400, 0, 127);
+    if(tempVal >250 && tempVal<=500){
+        float trackTwoVal = ofMap(tempVal, 250, 500, 0, 127);
         midiOut.sendControlChange(1, 21, trackTwoVal);
     }else{
         midiOut.sendControlChange(1, 21, 0);
     }
     
-    if (tempVal>350 && tempVal<=600) {
-        float trackThreeVal = ofMap(tempVal, 350, 600, 0, 127);
+    if (tempVal>450 && tempVal<=700) {
+        float trackThreeVal = ofMap(tempVal, 450, 700, 0, 127);
         midiOut.sendControlChange(1, 22, trackThreeVal);
     }else{
         midiOut.sendControlChange(1, 22, 0);
@@ -236,20 +236,20 @@ void ofApp::switchRocks(){
 
 void ofApp::playBells(){
     mRakePoint = position.getMidPoint();
-    if((mRing1.getCenter() - mRakePoint).length()<20){
+    if((mRing1.getCenter() - mRakePoint).length()<40){
         if (!mBell1.isPlaying()) {
             mBell1.setVolume(0.3);
             mBell1.play();
         }
     }
-    if((mRing2.getCenter() - mRakePoint).length()<20){
+    if((mRing2.getCenter() - mRakePoint).length()<40){
         if (!mBell2.isPlaying()) {
             mBell2.setVolume(0.3);
             mBell2.setSpeed(0.9);
             mBell2.play();
         }
     }
-    if((mRing3.getCenter() - mRakePoint).length()<20){
+    if((mRing3.getCenter() - mRakePoint).length()<40){
         if (!mBell3.isPlaying()) {
             mBell3.setVolume(0.3);
             mBell3.setSpeed(0.8);
