@@ -27,7 +27,7 @@ public:
     ofVideoGrabber          mVidGrabber;
     ofxCvColorImage			mColorImg;
     ofxCvGrayscaleImage 	mGrayImage;
-//    ofxCvGrayscaleImage     mFinalGrayImage;
+    ofxCvGrayscaleImage     mFinalGrayImage;
     ofxCvContourFinder      mContourFinder;
     int                     mThreshold;
     float                   mDisToCenter;

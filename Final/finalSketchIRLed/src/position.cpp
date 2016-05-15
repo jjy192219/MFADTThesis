@@ -20,7 +20,7 @@ void position::setup(){
     mVidGrabber.setup(640, 480);
     mColorImg.allocate(640, 480);
     mGrayImage.allocate(640, 480);
-//    mFinalGrayImage.allocate(ofGetWidth(), ofGetHeight());
+    mFinalGrayImage.allocate(ofGetWidth(), ofGetHeight());
     mThreshold = 50;
     mTimer = 0;
 }
@@ -33,8 +33,9 @@ void position::update(int thread){
         mColorImg.setFromPixels(mVidGrabber.getPixels());
         mGrayImage = mColorImg;
         mGrayImage.threshold(mThreshold);
-//        mFinalGrayImage.scaleIntoMe(mGrayImage);
-        mContourFinder.findContours(mGrayImage, 0, (ofGetWidth()*ofGetHeight())/3, 2, false);
+        mFinalGrayImage.scaleIntoMe(mGrayImage);
+//        mContourFinder.findContours(mGrayImage, 0, (ofGetWidth()*ofGetHeight())/3, 2, false);
+        mContourFinder.findContours(mFinalGrayImage, 0, (ofGetWidth()*ofGetHeight())/2, 2, false);
         for (int i = 0; i < mContourFinder.nBlobs; i ++) {
             ofVec2f tempBlob  = mContourFinder.blobs[i].centroid;
             mBlobCenters.push_back(tempBlob);

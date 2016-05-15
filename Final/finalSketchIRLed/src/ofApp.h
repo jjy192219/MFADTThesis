@@ -28,6 +28,7 @@ public:
     
     void switchRocks();
     void playBells();
+//    void checkRipples ();
     
     ofxPanel            mGui;
     ofParameterGroup    mParameters;
@@ -44,6 +45,17 @@ public:
     bool                bTouched2Last;
     bool                bTouched3Last;
     
+    bool                bDrawRippleOne;
+    bool                bDrawRippleTwo;
+    bool                bDrawRippleThree;
+//    bool                bDrawRippleOneLast;
+//    bool                bDrawRippleTwoLast;
+//    bool                bDrawRippleThreeLast;
+//    bool                bFinishRippleOne=false;
+//    bool                bFinishRippleTwo;
+//    bool                bFinishRippleThree;
+    bool                bJunkRead;
+    
     rings               mRing1, mRing2, mRing3;
     position            position;
     motions             motions;
@@ -57,6 +69,11 @@ public:
     int                 rotationProcessed;
     int                 accelProcessedPrev;
     int                 accelProcessed;
+    
+    int                 mRippleOne = 0;
+    int                 mRippleTwo = 0;
+    int                 mRippleThree = 0;
+
     
     vector<float>       mAvgAccel;
     

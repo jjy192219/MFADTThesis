@@ -1,0 +1,18 @@
+<Setting>
+	<Ring_1>
+		<size>150</size>
+		<position>320, 240</position>
+	</Ring_1>
+	<Ring_2>
+		<size>150</size>
+		<position>320, 240</position>
+	</Ring_2>
+	<Ring_3>
+		<size>150</size>
+		<position>320, 240</position>
+	</Ring_3>
+	<send_note>0</send_note>
+	<note_val>36</note_val>
+	<Threashold>50</Threashold>
+<Setting/>
+</Setting>
