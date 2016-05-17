@@ -214,6 +214,11 @@ void ofApp::draw(){
             mRippleThree = 0;
         }
     }
+    
+    ofSetColor(255);
+    ofNoFill();
+    ofSetLineWidth(1.0);
+    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 
 }
 
