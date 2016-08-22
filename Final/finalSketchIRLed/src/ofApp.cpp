@@ -85,7 +85,7 @@ void ofApp::update(){
     tempVal = 0;
     tempVal = tempNewVal;
     tempNewVal= mRackingSpeed;
-    if (tempNewVal-tempVal >=800) {
+    if (tempNewVal-tempVal >=1000) {
         tempNewVal=tempVal;
         bJunkRead = true;
         cout<<"<<<<<<<<<junk read filtered>>>>>>>>>"<<std::endl;

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0" : 0,
+    "6116060B9B43ED41429AE056D680B0BE4D4D9659" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F7862FEF-F2BA-4715-97BA-5D032109D6A2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0" : "MFADTThesis\/",
+    "6116060B9B43ED41429AE056D680B0BE4D4D9659" : "addons\/ofxPS3EyeGrabber\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "IREmitterTest",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Prototypes_0.93\/IREmitterTest\/IREmitterTest.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/bakercp\/ofxPS3EyeGrabber",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6116060B9B43ED41429AE056D680B0BE4D4D9659"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jjy192219\/MFADTThesis",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "AC0E4455AF137811F6AAE138AFBEEB39C22F6CE0"
+    }
+  ]
+}
