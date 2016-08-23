@@ -5,7 +5,6 @@
 #include "ofxGui.h"
 #include "position.h"
 #include "ofxMidi.h"
-#include "motions.h"
 
 class ofApp : public ofBaseApp{
     
@@ -28,7 +27,6 @@ public:
     
     void switchRocks();
     void playBells();
-//    void checkRipples ();
     
     ofxPanel            mGui;
     ofParameterGroup    mParameters;
@@ -45,37 +43,17 @@ public:
     bool                bTouched2Last;
     bool                bTouched3Last;
     
-    bool                bDrawRippleOne;
-    bool                bDrawRippleTwo;
-    bool                bDrawRippleThree;
-//    bool                bDrawRippleOneLast;
-//    bool                bDrawRippleTwoLast;
-//    bool                bDrawRippleThreeLast;
-//    bool                bFinishRippleOne=false;
-//    bool                bFinishRippleTwo;
-//    bool                bFinishRippleThree;
+
     bool                bJunkRead;
     
     rings               mRing1, mRing2, mRing3;
     position            position;
-    motions             motions;
     ofxMidiOut          midiOut;
     float               distToCenter[3];
     float               mRackingSpeed;
     ofVec2f             mRakePoint;
-    ofVec3f             rotationRawReads;
-    ofVec3f             accelRawReads;
-    int                 rotationProcessedPrev;
-    int                 rotationProcessed;
-    int                 accelProcessedPrev;
-    int                 accelProcessed;
-    
-    int                 mRippleOne = 0;
-    int                 mRippleTwo = 0;
-    int                 mRippleThree = 0;
 
-    
-    vector<float>       mAvgAccel;
+
     
     ofSoundPlayer       mBell1;
     ofSoundPlayer       mBell2;

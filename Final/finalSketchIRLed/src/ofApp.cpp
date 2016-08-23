@@ -23,9 +23,7 @@ void ofApp::setup(){
     mParameters.add(mRing3.parameters);
     
     mGui.setup(mParameters);
-    mGui.add(bSendNote.set("send note",false));
-    mGui.add(notes.set("note val", 36, 0, 127));
-    mGui.add(thread.set("Threashold", 50, 0, 100));
+    mGui.add(thread.set("CVThreashold", 50, 0, 100));
     
     position.setup();
     for (int i = 0; i < 3; i++) {
@@ -35,15 +33,10 @@ void ofApp::setup(){
     //-------midi----------
     midiOut.listPorts(); // via instance
     midiOut.openVirtualPort("Thesis MIDI");
+    midiOut.sendControlChange(1, 20, 0);
     midiOut.sendControlChange(1, 21, 0);
     midiOut.sendControlChange(1, 22, 0);
-    midiOut.sendControlChange(1, 23, 0);
-    //--------motions----------
-    motions.setup();
-    rotationProcessedPrev = 0;
-    rotationProcessed = 0;
-    accelProcessedPrev = 0;
-    accelProcessed = 0;
+
     
     mRackingSpeed = 0;
     //-----bell sounds-------
@@ -81,11 +74,12 @@ void ofApp::update(){
         bTouched3 = false;
     }
     
+    mRackingSpeed = position.getTravelSpeed();
     float tempVal, tempNewVal;
     tempVal = 0;
     tempVal = tempNewVal;
     tempNewVal= mRackingSpeed;
-    if (tempNewVal-tempVal >=1000) {
+    if (tempNewVal-tempVal >=2000) {
         tempNewVal=tempVal;
         bJunkRead = true;
         cout<<"<<<<<<<<<junk read filtered>>>>>>>>>"<<std::endl;
@@ -94,15 +88,8 @@ void ofApp::update(){
     }
     tempVal = 0.7*tempVal + 0.3*tempNewVal;
 
-    if(tempVal <=0){
-        tempVal = 0;
-    }else if (tempVal >= 700){
-        tempVal = 700;
-    }
-    
-//    cout<<"rake speed: "<<mRackingSpeed<<" processed: "<<tempVal<<std::endl;
-    cout<<"bHide: "<<bHide<<std::endl;
-    
+    cout<<"rake speed: "<<mRackingSpeed<<" processed: "<<tempVal<<std::endl;
+//    cout<<"tempVal: "<<tempVal<<std::endl;
     
     if (tempVal>0 && tempVal<=150) {
         float trakOneVal = ofMap(tempVal, 0, 150, 0, 127);
@@ -126,6 +113,7 @@ void ofApp::update(){
     }
     switchRocks();
     playBells();
+
 }
 
 //--------------------------------------------------------------
@@ -158,67 +146,11 @@ void ofApp::draw(){
         
         stringstream text;
         text <<"distance to center "<< distToCenter <<endl<<
-        "acceleration raw" << accelRawReads<<endl<<
-        "acceleration Processed " << accelProcessedPrev<<endl<<
-        "rotation raw" << rotationRawReads<<endl<<
-        "rotation processed " << rotationProcessed<<endl<<
+        "raking speed: "<<mRackingSpeed<<endl<<
         "FPS: " << ofGetFrameRate()<<endl;
         ofDrawBitmapString(text.str(), ofGetWidth()-250, 20);
     
     }
-    
-    if(!bJunkRead){
-        ofSetColor(255);
-        ofNoFill();
-        ofSetLineWidth(0.4);
-        if(bDrawRippleOne){
-            if (mRippleOne<= ofGetWidth()/3) {
-                ofDrawCircle(mRing1.getCenter(), mRippleOne);
-                mRippleOne += 3;
-            }else{
-                mRippleOne = 0;
-            }
-        }else{
-            mRippleOne = 0;
-        }
-        
-//        checkRipples();
-//        if (bFinishRippleOne) {
-//            float temp = mRippleOne;
-//            mRippleOne= 0;
-//            if (temp<= ofGetWidth()/3) {
-//                ofDrawCircle(mRing1.getCenter(), temp);
-//            }else{
-//                temp = 0;
-//                bFinishRippleOne = false;
-//            }
-//        }
-        if(bDrawRippleTwo){
-            if (mRippleTwo <= ofGetWidth()/3) {
-                ofDrawCircle(mRing2.getCenter(), mRippleTwo);
-                mRippleTwo += 3;
-            }else{
-                mRippleTwo = 0;
-            }
-        }else{
-            mRippleTwo = 0;
-        }
-        if(bDrawRippleThree){
-            if (mRippleThree <= ofGetWidth()/3) {
-                ofDrawCircle(mRing3.getCenter(), mRippleThree);
-                mRippleThree += 3;
-            }else{
-                mRippleThree = 0;
-            }
-        }else{
-            mRippleThree = 0;
-        }
-    }
-    
-    ofSetColor(255);
-    ofNoFill();
-    ofSetLineWidth(1.0);
-    ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 
 }
 
@@ -259,57 +191,40 @@ void ofApp::playBells(){
         if (!mBell1.isPlaying()) {
             mBell1.setVolume(0.3);
             mBell1.play();
-        }else{
-            bDrawRippleOne = true;
         }
-    }else{
-        bDrawRippleOne = false;
     }
     if((mRing2.getCenter() - mRakePoint).length()<60){
         if (!mBell2.isPlaying()) {
             mBell2.setVolume(0.3);
             mBell2.setSpeed(0.9);
             mBell2.play();
-        }else{
-            bDrawRippleTwo = true;
         }
-    }else{
-
-        bDrawRippleTwo = false;
     }
     if((mRing3.getCenter() - mRakePoint).length()<60){
         if (!mBell3.isPlaying()) {
             mBell3.setVolume(0.3);
             mBell3.setSpeed(0.8);
             mBell3.play();
-        }else{
-            bDrawRippleThree = true;
         }
-    }else{
-        bDrawRippleThree = false;
     }
 }
 
-//void ofApp::checkRipples(){
-//    if (bDrawRippleOne!= bDrawRippleOneLast) {
-//        if (bDrawRippleOne) {
-//            if (mRippleOne <= ofGetWidth()/3) {
-//                mRippleOne += 3;
-//                ofDrawCircle(mRing1.getCenter(), mRippleOne);
-//            }else{
-//                mRippleOne = 0;
-//            }
-//        }else{
-//            bFinishRippleOne = true;
-//        }
-//    }
-//    
-//    bDrawRippleOneLast = bDrawRippleOne;
-//}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if( key == '1' ){
         bHide = !bHide;
+    }
+    if (key == 'p') {
+        midiOut.sendControlChange(1, 20, 0);
+        midiOut.sendControlChange(1, 21, 0);
+        midiOut.sendControlChange(1, 22, 0);
+        midiOut.sendNoteOff(1,36);
+        midiOut.sendNoteOff(1,38);
+        midiOut.sendNoteOff(1,40);
+        mBell1.stop();
+        mBell2.stop();
+        mBell3.stop();
     }
 }
 

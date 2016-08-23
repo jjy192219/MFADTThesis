@@ -57,14 +57,22 @@ float position::getIntersectDist(ofVec2f centerPos){
 }
 
 ofVec2f position::getMidPoint(){
-    return mMidPoint;
+    if(mBlobCenters.size()>0){
+        return mMidPoint;
+    }else{
+        return ofVec2f(0,0);
+    }
 }
 
 
 float position::getTravelSpeed(){
-    if(mMidPoints.size()>0){
-        float tempDis = (mMidPoints[0]- mMidPoints[9]).length()*10;
-        return tempDis;
+    if(mBlobCenters.size()>0){
+        if(mMidPoints.size()>0){
+            float tempDis = (mMidPoints[0]- mMidPoints[9]).length()*10;
+            return tempDis;
+        }
+    }else{
+        return 0;
     }
 }
 
